@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe Samuels — Always Verify</title>
+    <meta name="description" content="Joe Samuels — Technical Delivery Lead specialising in Microsoft Entra ID and Microsoft 365 security.">
+    <meta property="og:title" content="Joe Samuels — Always Verify">
+    <meta property="og:description" content="Technical Delivery Lead. Microsoft Entra ID & Microsoft 365 security.">
+    <meta property="og:url" content="https://alwaysverify.co.uk">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #F5C518;
+            --bg: #0C0C0C;
+            --text: #EDEDED;
+            --muted: #555;
+            --border: #1C1C1C;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            cursor: crosshair;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.35;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.1s;
+        }
+
+        .header-name {
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .header-domain {
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .header-domain:hover {
+            color: var(--yellow);
+        }
+
+        /* ── Main ── */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 3rem 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            margin-bottom: 5rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.63rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.3s;
+        }
+
+        .hero-headline {
+            font-size: clamp(3.8rem, 13vw, 10.5rem);
+            font-weight: 500;
+            line-height: 0.88;
+            letter-spacing: -0.03em;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-line > span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(110%);
+            animation: slideUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-line:nth-child(1) > span { animation-delay: 0.45s; }
+        .hero-line:nth-child(2) > span { animation-delay: 0.62s; }
+
+        .hero-line.accent > span {
+            background: var(--yellow);
+            color: var(--bg);
+            padding: 0.02em 0.1em;
+        }
+
+        .hero-sub {
+            font-size: clamp(0.72rem, 1.3vw, 0.88rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--muted);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.05s;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── About ── */
+        .about {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 0 3rem;
+            padding: 2.5rem 0;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.15s;
+        }
+
+        .section-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding-top: 0.15rem;
+        }
+
+        .about-text {
+            font-size: 0.88rem;
+            font-weight: 300;
+            line-height: 1.85;
+            color: #888;
+            max-width: 560px;
+        }
+
+        .about-text strong {
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        /* ── Links ── */
+        .links {
+            display: flex;
+            gap: 2.5rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.25s;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+            transition: color 0.25s;
+        }
+
+        .link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--yellow);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .link:hover {
+            color: var(--text);
+        }
+
+        .link:hover::after {
+            width: 100%;
+        }
+
+        /* ── Footer ── */
+        footer {
+            padding: 1.75rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.35s;
+        }
+
+        .footer-copy {
+            font-size: 0.58rem;
+            color: #2E2E2E;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .footer-mark {
+            width: 7px;
+            height: 7px;
+            background: var(--yellow);
+            border-radius: 50%;
+        }
+
+        /* ── Keyframes ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(110%); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 680px) {
+            header  { padding: 1.5rem; }
+            main    { padding: 1.5rem 1.5rem 3rem; }
+            footer  { padding: 1.5rem; }
+
+            .hero   { margin-bottom: 3rem; }
+            .about  { grid-template-columns: 1fr; gap: 1rem; }
+            .links  { gap: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="header-name">Joe Samuels</span>
+        <a href="/" class="header-domain">alwaysverify.co.uk</a>
+    </header>
+
+    <main>
+
+        <div class="hero">
+            <p class="hero-eyebrow">// technical delivery lead</p>
+            <h1 class="hero-headline">
+                <span class="hero-line"><span>ALWAYS</span></span>
+                <span class="hero-line accent"><span>VERIFY.</span></span>
+            </h1>
+            <p class="hero-sub">don't assume. don't guess. verify.</p>
+        </div>
+
+        <div class="about">
+            <span class="section-label">About</span>
+            <p class="about-text">
+                <strong>Technical Delivery Lead</strong> specialising in
+                <strong>Microsoft Entra ID</strong> and Microsoft 365 security.
+                I help organisations build identity-first security architectures —
+                the kind of work where assumptions cost real money,
+                and getting it right the first time matters.
+            </p>
+        </div>
+
+        <nav class="links">
+            <a href="https://github.com/joesamuels" class="link" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/joesamuels" class="link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="mailto:joesamuels98@gmail.com" class="link">Email</a>
+        </nav>
+
+    </main>
+
+    <footer>
+        <span class="footer-copy">© 2026 Joe Samuels</span>
+        <div class="footer-mark"></div>
+    </footer>
+
+</body>
+</html>
